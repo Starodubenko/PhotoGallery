@@ -1,0 +1,50 @@
+.login-view {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  background-color: rgb(62, 57, 150);
+  transition: top 0.5s cubic-bezier(0.55, -0.01, 0.11, 0.95);
+}
+
+.login-view.raised {
+  top: -100vh;
+}
+
+.login-form {
+  width: 100vw;
+  background-color: rgba(200, 198, 201, 1);
+}
+
+.login-form {
+  form {
+    .md-button {
+      width: 100%;
+      margin: 0;
+    }
+  }
+}
+
+.navigation {
+  position: relative;
+  background-color: #313eaa;
+  height: 60px;
+  width: 100vw;
+  transition: bottom 0.5s cubic-bezier(0.55, -0.01, 0.11, 0.95);
+  bottom: 0;
+}
+
+.navigation {
+  .user-card {
+    height: 100%;
+  }
+  .nav-panel {
+    height: 100%;
+  }
+}
+
+.navigation.logged-in {
+  position: absolute;
+  bottom: -60px;
+}
