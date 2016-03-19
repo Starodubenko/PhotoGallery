@@ -2,7 +2,7 @@
   angular.module('login', ['ngAnimate']);
 
   angular.module('photo')
-    .factory('LoginService', function ($sessionService) {
+    .factory('LoginService', function () {
       var service = {};
       service.users = [
         {
@@ -12,22 +12,22 @@
           password: '1'
         }
       ];
-      var checkUserInSession = function () {
-        var isThere = false;
-        isThere = $sessionService.user != null;
-        if (isThere){
+      // var checkUserInSession = function () {
+      //   var isThere = false;
+      //   isThere = $sessionService.user != null;
+      //   if (isThere){
+      //
+      //   }
+      //   return isThere;
+      // };
+      //
+      // var getUserFromSession = function () {
+      //   return $sessionService.user;
+      // };
 
-        }
-        return isThere;
-      };
-
-      var getUserFromSession = function () {
-        return $sessionService.user;
-      };
-
-      var setUserInSession = function (user) {
-        $sessionService.user = user;
-      };
+      // var setUserInSession = function (user) {
+      //   $sessionService.user = user;
+      // };
       var currentLoggedInUser;
       return {
         getUserByCredentials: function (login, password) {
@@ -39,12 +39,12 @@
           return currentLoggedInUser;
         },
         getCurrentLoggedInUser: function () {
-          return getUserFromSession();
-          // return currentLoggedInUser;
+          // return getUserFromSession();
+          return currentLoggedInUser;
         },
         logOut: function () {
-          // currentLoggedInUser = null;
-          setUserInSession(null);
+          currentLoggedInUser = null;
+          // setUserInSession(null);
         }
       }
     });
