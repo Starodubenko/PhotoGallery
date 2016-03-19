@@ -1,7 +1,13 @@
 {
   "name": "photoGallery",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.3",
+    "jsonwebtoken": "^5.7.0",
+    "mongoose": "^4.4.8",
+    "morgan": "^1.7.0"
+  },
   "scripts": {
     "test": "gulp test"
   },

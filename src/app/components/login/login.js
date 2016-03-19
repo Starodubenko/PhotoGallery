@@ -66,7 +66,7 @@
     });
 
   angular.module('photo')
-    .directive('loginForm', function (LoginService) {
+    .directive('loginForm', function (LoginService, $http, $window) {
       return {
         restrict: 'E',
         template:
@@ -82,15 +82,31 @@
                 '<input ng-model="user.password" value="1">' +
               '</md-input-container>' +
             '</div>' +
-            '<md-button class="md-raised md-primary" ng-click="logInSystem()">Log in</md-button>' +
+            '<md-button class="md-raised md-primary" ng-click="submit()">Log in</md-button>' +
           '</form>' +
         '</div>',
         link: function ($scope) {
           $scope.LoginService = LoginService;
 
-          $scope.logInSystem = function(){
-            $scope.foundUser = LoginService.getUserByCredentials($scope.user.userName,$scope.user.password)
-          };
+          // $scope.logInSystem = function(){
+          //   $scope.foundUser = LoginService.getUserByCredentials($scope.user.userName,$scope.user.password)
+          // };
+
+          $scope.submit = function () {
+            $http({
+              method: 'post',
+              url: 'http://localhost:8080/api/authenticate',
+              data: {name: $scope.user.userName, password: $scope.user.password},
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+              }
+            }).success(function (data, status, headers, config) {
+                $window.sessionStorage.token = data.token;
+              })
+              .error(function (data, status, headers, config) {
+                delete $window.sessionStorage.token;
+              });
+          }
         }
       }
     });
