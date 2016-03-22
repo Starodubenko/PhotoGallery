@@ -1,15 +1,15 @@
 // =======================
 // get the packages we need ============
 // =======================
-var express     = require('express');
-var app         = express();
-var bodyParser  = require('body-parser');
-var morgan      = require('morgan');
-var mongoose    = require('mongoose');
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+var morgan = require('morgan');
+var mongoose = require('mongoose');
 
-var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
+var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./src/server/config.js'); // get our config file
-var User   = require('./src/server/model/user.js'); // get our mongoose model
+var User = require('./src/server/model/user.js'); // get our mongoose model
 
 // =======================
 // configuration =========
@@ -20,7 +20,7 @@ app.set('superSecret', config.secret); // secret variable
 app.set('accessedURLs', config.accessedURLs); // secret variable
 
 // use body parser so we can get info from POST and/or URL parameters
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 // use morgan to log requests to the console
@@ -30,11 +30,11 @@ app.use(morgan('dev'));
 // routes ================
 // =======================
 // basic route
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.send('Hello! The API is at http://localhost:' + port + '/api');
 });
 
-app.get('/setup', function(req, res) {
+app.get('/setup', function (req, res) {
 
   // create a sample user
   var nick = new User({
@@ -44,17 +44,17 @@ app.get('/setup', function(req, res) {
   });
 
   // save the sample user
-  nick.save(function(err) {
+  nick.save(function (err) {
     if (err) throw err;
 
     console.log('User saved successfully');
-    res.json({ success: true });
+    res.json({success: true});
   });
 });
 
-var allowCrossDomain = function(req, res, next) {
+var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if ('OPTIONS' == req.method) {
     res.send(200);
@@ -73,17 +73,17 @@ var apiRoutes = express.Router();
 
 // TODO: route to authenticate a user (POST http://localhost:8080/api/authenticate)
 
-apiRoutes.use(function(req, res, next) {
+apiRoutes.use(function (req, res, next) {
 
   var isAllowedURL = app.get('accessedURLs').indexOf(req.originalUrl) >= 0;
 
-  if (!isAllowedURL){
+  if (!isAllowedURL) {
     // check header or url parameters or post parameters for token
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    var token = req.body.token || req.query.token || req.headers['authorization'];//x-access-token
     if (token) {
-      jwt.verify(token, app.get('superSecret'), function(err, decoded) {
+      jwt.verify(token, app.get('superSecret'), function (err, decoded) {
         if (err) {
-          return res.json({ success: false, message: 'Failed to authenticate token.' });
+          return res.json({success: false, message: 'Failed to authenticate token.'});
         } else {
           req.decoded = decoded;
           next();
@@ -101,33 +101,53 @@ apiRoutes.use(function(req, res, next) {
 });
 
 // route to show a random message (GET http://localhost:8080/api/)
-apiRoutes.get('/', function(req, res) {
-  res.json({ message: 'Welcome to the coolest API on earth!' });
+apiRoutes.get('/', function (req, res) {
+  res.json({message: 'Welcome to the coolest API on earth!'});
 });
 
 // route to return all users (GET http://localhost:8080/api/users)
-apiRoutes.get('/users', function(req, res) {
-  User.find({}, function(err, users) {
+apiRoutes.get('/users', function (req, res) {
+  User.find({}, function (err, users) {
     res.json(users);
   });
 });
 
-apiRoutes.post('/authenticate', function(req, res) {
+apiRoutes.get('/check-access', function (req, res) {
+  var token = req.body.token || req.query.token || req.headers['authorization'];
+  var state = req.query.state;
+  jwt.verify(token, app.get('superSecret'), function (err, decoded) {
+    if (err) {
+      return res.json({success: false, message: 'Failed to authenticate token.'});
+    } else {
+      var id = decoded._doc._id;
+      User.findById(id, function (err, user) {
+        if (user.admin && state == 'photoView') {
+          res.json({access: true});
+        } else {
+          res.json({access: false});
+        }
+      });
+    }
+  });
+
+});
+
+apiRoutes.post('/authenticate', function (req, res) {
 
   // find the user
   User.findOne({
     name: req.body.name
-  }, function(err, user) {
+  }, function (err, user) {
 
     if (err) throw err;
 
     if (!user) {
-      res.json({ success: false, message: 'Authentication failed. User not found.' });
+      res.json({success: false, message: 'Authentication failed. User not found.'});
     } else if (user) {
 
       // check if password matches
       if (user.password != req.body.password) {
-        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+        res.json({success: false, message: 'Authentication failed. Wrong password.'});
       } else {
 
         // if user is found and password is right

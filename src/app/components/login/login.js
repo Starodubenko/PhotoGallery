@@ -2,7 +2,30 @@
   angular.module('login', ['ngAnimate']);
 
   angular.module('photo')
-    .factory('LoginService', function () {
+    .factory('authInterceptor', function ($rootScope, $q, $window) {
+      return {
+        request: function (config) {
+          config.headers = config.headers || {};
+          if ($window.sessionStorage.token) {
+            config.headers.Authorization = $window.sessionStorage.token;
+          }
+          return config;
+        },
+        response: function (response) {
+          if (response.status === 401) {
+
+          }
+          return response || $q.when(response);
+        }
+      };
+    });
+
+  angular.module('photo').config(function ($httpProvider) {
+    $httpProvider.interceptors.push('authInterceptor');
+  });
+
+  angular.module('photo')
+    .factory('LoginService', function ($http, $window) {
       var service = {};
       service.users = [
         {
@@ -12,22 +35,6 @@
           password: '1'
         }
       ];
-      // var checkUserInSession = function () {
-      //   var isThere = false;
-      //   isThere = $sessionService.user != null;
-      //   if (isThere){
-      //
-      //   }
-      //   return isThere;
-      // };
-      //
-      // var getUserFromSession = function () {
-      //   return $sessionService.user;
-      // };
-
-      // var setUserInSession = function (user) {
-      //   $sessionService.user = user;
-      // };
       var currentLoggedInUser;
       return {
         getUserByCredentials: function (login, password) {
@@ -45,7 +52,30 @@
         logOut: function () {
           currentLoggedInUser = null;
           // setUserInSession(null);
+        },
+        checkCurrentTokenForAccessToState: function (checkingStateName, refuseCallback, errorCallback) {
+          $http({
+            method: 'GET',
+            url: 'http://localhost:8080/api/check-access?state='+checkingStateName
+          }).success(function (data, status, headers, config) {
+              if (data.access == false){
+                refuseCallback();
+              }
+            })
+            .error(function (data, status, headers, config) {
+              errorCallback();
+            });
         }
+      }
+    });
+
+  angular.module('photo')
+    .factory('AuthenticateService', function () {
+      var service = {};
+
+      var currentLoggedInUser;
+      return {
+
       }
     });
 
@@ -66,7 +96,7 @@
     });
 
   angular.module('photo')
-    .directive('loginForm', function (LoginService, $http, $window) {
+    .directive('loginForm', function (LoginService, $http, $window, $state) {
       return {
         restrict: 'E',
         template:
@@ -88,13 +118,9 @@
         link: function ($scope) {
           $scope.LoginService = LoginService;
 
-          // $scope.logInSystem = function(){
-          //   $scope.foundUser = LoginService.getUserByCredentials($scope.user.userName,$scope.user.password)
-          // };
-
           $scope.submit = function () {
             $http({
-              method: 'post',
+              method: 'POST',
               url: 'http://localhost:8080/api/authenticate',
               data: {name: $scope.user.userName, password: $scope.user.password},
               headers: {
@@ -102,11 +128,12 @@
               }
             }).success(function (data, status, headers, config) {
                 $window.sessionStorage.token = data.token;
+                $state.go('photoView');
               })
               .error(function (data, status, headers, config) {
                 delete $window.sessionStorage.token;
               });
-          }
+          };
         }
       }
     });
