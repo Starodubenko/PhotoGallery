@@ -10,20 +10,16 @@
     $stateProvider
       .state('login', {
         url: '/login',
-        template: '<login-view></login-view>'
+        template: '<login-view></login-view>',
+        data: {
+          requireLogin: false
+        }
       })
       .state('photoView', {
         url: '/photo-view',
         template: '<photo-view></photo-view>',
-        onEnter: function (LoginService, $state) {
-          LoginService.checkCurrentTokenForAccessToState('photoView',
-            function () {
-              $state.go('login');
-            },
-            function () {
-              $state.go('error');
-            }
-          );
+        data: {
+          requireLogin: true
         }
       });
 

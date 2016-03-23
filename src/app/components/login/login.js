@@ -25,7 +25,7 @@
   });
 
   angular.module('photo')
-    .factory('LoginService', function ($http, $window) {
+    .factory('LoginService', function ($http, $rootScope, $state) {
       var service = {};
       service.users = [
         {
@@ -36,35 +36,34 @@
         }
       ];
       var currentLoggedInUser;
-      return {
-        getUserByCredentials: function (login, password) {
-          service.users.forEach(function (item, index) {
-            if (item.login == login && item.password == password){
-              currentLoggedInUser = item;
+      var checkedState;
+
+      var checkCurrentTokenForAccessToState = function (checkingStateName, allowCallback, refuseCallback, errorCallback) {
+        $http({
+          method: 'GET',
+          url: 'http://localhost:8080/api/check-access?state='+checkingStateName
+        }).success(function (data, status, headers, config) {
+            if (data.access == true){
+              allowCallback();
+            } else {
+              refuseCallback();
             }
+          })
+          .error(function (data, status, headers, config) {
+            errorCallback();
           });
-          return currentLoggedInUser;
+      };
+      return {
+        checkCurrentTokenForAccessToState: checkCurrentTokenForAccessToState,
+
+        getUserByCredentials: function (login, password) {
+          
         },
         getCurrentLoggedInUser: function () {
-          // return getUserFromSession();
-          return currentLoggedInUser;
+
         },
         logOut: function () {
-          currentLoggedInUser = null;
-          // setUserInSession(null);
-        },
-        checkCurrentTokenForAccessToState: function (checkingStateName, refuseCallback, errorCallback) {
-          $http({
-            method: 'GET',
-            url: 'http://localhost:8080/api/check-access?state='+checkingStateName
-          }).success(function (data, status, headers, config) {
-              if (data.access == false){
-                refuseCallback();
-              }
-            })
-            .error(function (data, status, headers, config) {
-              errorCallback();
-            });
+
         }
       }
     });

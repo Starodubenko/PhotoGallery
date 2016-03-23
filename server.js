@@ -75,7 +75,7 @@ var apiRoutes = express.Router();
 
 apiRoutes.use(function (req, res, next) {
 
-  var isAllowedURL = app.get('accessedURLs').indexOf(req.originalUrl) >= 0;
+  var isAllowedURL = app.get('accessedURLs').indexOf(req._parsedUrl.pathname) >= 0;
 
   if (!isAllowedURL) {
     // check header or url parameters or post parameters for token
@@ -117,7 +117,7 @@ apiRoutes.get('/check-access', function (req, res) {
   var state = req.query.state;
   jwt.verify(token, app.get('superSecret'), function (err, decoded) {
     if (err) {
-      return res.json({success: false, message: 'Failed to authenticate token.'});
+      return res.json({access: false, message: 'Failed to authenticate token.'});
     } else {
       var id = decoded._doc._id;
       User.findById(id, function (err, user) {
