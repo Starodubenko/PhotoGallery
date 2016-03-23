@@ -12,18 +12,16 @@
       if (toState.name == 'login' && $window.sessionStorage.token){
         event.preventDefault();
       } else if (toState.data.requireLogin && !$window.sessionStorage.token){
-        LoginService.checkCurrentTokenForAccessToState(toState.name,
-          function () {
-            $state.transitionTo(toState.name);
-            console.log("Success");
-          },
-          function () {
-            $state.transitionTo('login');
-            console.log("Denied");
-          },
-          function () {
+        LoginService.checkCurrentTokenForAccessToState(toState.name)
+          .then(function (access) {
+            if (access){
+              $state.transitionTo(toState.name);
+            }else {
+              $state.transitionTo('login');
+            }
+          })
+          .catch(function (error) {
             $state.transitionTo('error');
-            console.log("Error");
           });
         event.preventDefault();
       }

@@ -25,7 +25,7 @@
   });
 
   angular.module('photo')
-    .factory('LoginService', function ($http, $rootScope, $state) {
+    .factory('LoginService', function ($http, $rootScope, $state, $q) {
       var service = {};
       service.users = [
         {
@@ -39,25 +39,27 @@
       var checkedState;
 
       var checkCurrentTokenForAccessToState = function (checkingStateName, allowCallback, refuseCallback, errorCallback) {
+        var q = $q.defer();
         $http({
           method: 'GET',
           url: 'http://localhost:8080/api/check-access?state='+checkingStateName
         }).success(function (data, status, headers, config) {
             if (data.access == true){
-              allowCallback();
+              q.resolve(true);
             } else {
-              refuseCallback();
+              q.resolve(false);
             }
           })
           .error(function (data, status, headers, config) {
-            errorCallback();
+            q.reject(status);
           });
+        return q.promise;
       };
       return {
         checkCurrentTokenForAccessToState: checkCurrentTokenForAccessToState,
 
         getUserByCredentials: function (login, password) {
-          
+
         },
         getCurrentLoggedInUser: function () {
 
