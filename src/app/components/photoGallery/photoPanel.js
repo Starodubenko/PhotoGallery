@@ -166,8 +166,9 @@
 
         var scrolledY = $window.pageYOffset;
         var scrolledX = $window.pageXOffset;
+        var photoViewMargitTop = 50;
         var targetLeft = element[0].parentElement.offsetLeft - scrolledX;
-        var targetTop = element[0].parentElement.offsetTop - scrolledY;
+        var targetTop = element[0].parentElement.offsetTop - scrolledY + photoViewMargitTop;
 
 
         $animate.animate(element,
@@ -241,9 +242,10 @@
             var element = getPhotoContainer(service.currentIndex);
             var scrolledY = $window.pageYOffset;
             var scrolledX = $window.pageXOffset;
+            var photoViewMargitTop = 50;
             var buttonsBlock = angular.element(element[0].lastChild);
             var targetLeft = element[0].parentElement.offsetLeft - scrolledX;
-            var targetTop = element[0].parentElement.offsetTop - scrolledY;
+            var targetTop = element[0].parentElement.offsetTop - scrolledY + photoViewMargitTop;
 
 
             buttonsBlock.removeClass('visible-slider-buttons');
@@ -365,7 +367,7 @@
       return {
         restrict: 'E',
         scope: {},
-        template: '<div class="photo-slider" ng-class="{\'show-mode\': PhotoService.isShownSlider()}" left-key="" right-key="">' +
+        template: '<div class="photo-slider" ng-class="{\'show-mode\': PhotoService.isShownSlider()}">' +
         '<div class="slider-background"></div>' +
         '</div>',
         link: function ($scope) {

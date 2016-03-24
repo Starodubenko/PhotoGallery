@@ -25,7 +25,7 @@
   });
 
   angular.module('photo')
-    .factory('LoginService', function ($http, $rootScope, $state, $q) {
+    .factory('LoginService', function ($http, $rootScope, $state, $q, $window, $timeout, jwtHelper) {
       var service = {};
       service.users = [
         {
@@ -38,7 +38,7 @@
       var currentLoggedInUser;
       var checkedState;
 
-      var checkCurrentTokenForAccessToState = function (checkingStateName, allowCallback, refuseCallback, errorCallback) {
+      var checkCurrentTokenForAccessToState = function (checkingStateName) {
         var q = $q.defer();
         $http({
           method: 'GET',
@@ -61,10 +61,31 @@
         getUserByCredentials: function (login, password) {
 
         },
-        getCurrentLoggedInUser: function () {
-
+        isUserLoggedIn: function () {
+          return !!$window.sessionStorage.token;
+        },
+        getCurrentUser: function () {
+          var decodedToken;
+          if ($window.sessionStorage.token){
+            decodedToken = jwtHelper.decodeToken($window.sessionStorage.token);
+          }
+          return {
+            getId: function () {
+            return decodedToken ? decodedToken._doc._id : "";
+            },
+            getFirstName: function () {
+              return decodedToken ? decodedToken._doc.firstname : "";
+            },
+            getLastName: function () {
+              return decodedToken ? decodedToken._doc.lastname : "";
+            }
+          }
         },
         logOut: function () {
+          delete $window.sessionStorage.token;
+          $timeout(function () {
+            $state.go('login');
+          }, 600);
 
         }
       }
@@ -82,27 +103,29 @@
 
 
   angular.module('photo')
-    .directive('loginView', function (LoginService) {
+    .directive('loginView', function (LoginService, $animateCss) {
       return {
         restrict: 'E',
         template:
-        '<div class="login-view" layout="column" layout-wrap layout-align="end none" ng-class="{\'raised\': LoginService.getCurrentLoggedInUser()}">' +
+        '<div class="login-view" layout="column" layout-wrap layout-align="end none" ng-class="{\'raised\': LoginService.isUserLoggedIn()}">' +
           '<login-form layout="row" flex="auto"></login-form>' +
           '<navigation></navigation>' +
         '</div>',
-        link: function ($scope) {
-
+        link: function ($scope, element) {
+          // $scope.$watch('LoginService.isUserLoggedIn()', function () {
+          //   $animate(element.firstChild, from, to, [className])
+          // })
         }
       }
     });
 
   angular.module('photo')
-    .directive('loginForm', function (LoginService, $http, $window, $state) {
+    .directive('loginForm', function ($rootScope, LoginService, $http, $window, $state ) {
       return {
         restrict: 'E',
         template:
         '<div class="login-form" layout="row" flex="auto" layout-wrap layout-align="center center">' +
-          '<form>' +
+          '<form ng-class="{\'already-logged-in\': LoginService.isUserLoggedIn()}">' +
             '<div layout-gt-sm="column">' +
               '<md-input-container class="md-block" flex-gt-sm>' +
                 '<label>User name</label>' +
@@ -129,6 +152,7 @@
               }
             }).success(function (data, status, headers, config) {
                 $window.sessionStorage.token = data.token;
+                $rootScope.user = LoginService.getCurrentUser();
                 $state.go('photoView');
               })
               .error(function (data, status, headers, config) {
@@ -144,13 +168,13 @@
       return {
         restrict: 'E',
         template:
-        '<div class="navigation" layout="row" layout-align="space-between none" ng-class="{\'logged-in\': LoginService.getCurrentLoggedInUser()}">' +
+        '<div class="navigation" layout="row" layout-align="space-between none" ng-class="{\'logged-in\': LoginService.isUserLoggedIn()}">' +
           '<div class="nav-panel"  flex="70">' +
 
           '</div>' +
           '<div class="user-card" flex="30" ng-click="LoginService.logOut()">' +
-            '{{LoginService.getCurrentLoggedInUser().firstname}}' +
-            '{{LoginService.getCurrentLoggedInUser().lastname}}' +
+            '{{user.getFirstName()}}' +
+            '{{user.getLastName()}}' +
           '</div>' +
         '</div>',
         link: function ($scope) {

@@ -40,6 +40,8 @@ app.get('/setup', function (req, res) {
   var nick = new User({
     name: 'Rody',
     password: '1',
+    firstname: 'Rodion',
+    lastname: 'Starodubenko',
     admin: true
   });
 

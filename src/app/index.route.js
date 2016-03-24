@@ -10,7 +10,7 @@
     $stateProvider
       .state('login', {
         url: '/login',
-        template: '<login-view></login-view>',
+        // template: '<login-view></login-view>',
         data: {
           requireLogin: false
         }

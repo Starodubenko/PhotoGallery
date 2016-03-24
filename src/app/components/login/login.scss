@@ -8,6 +8,10 @@
   transition: top 0.5s cubic-bezier(0.55, -0.01, 0.11, 0.95);
 }
 
+//.login-view.animate {
+//  transition: top 0.5s cubic-bezier(0.55, -0.01, 0.11, 0.95);
+//}
+
 .login-view.raised {
   top: -100vh;
 }
@@ -24,7 +28,12 @@
       margin: 0;
     }
   }
+  form.already-logged-in{
+    display: none;
+  }
 }
+
+
 
 .navigation {
   position: relative;
