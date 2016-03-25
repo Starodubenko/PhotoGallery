@@ -21,6 +21,13 @@
         data: {
           requireLogin: true
         }
+      })
+      .state('admin', {
+        url: '/admin',
+        template: '<photo-view></photo-view>',
+        data: {
+          requireLogin: true
+        }
       });
 
     $urlRouterProvider.otherwise('/');

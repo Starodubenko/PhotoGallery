@@ -2,7 +2,7 @@
   angular.module('login', ['ngAnimate']);
 
   angular.module('photo')
-    .factory('authInterceptor', function ($rootScope, $q, $window) {
+    .factory('authInterceptor', function ($q, $window) {
       return {
         request: function (config) {
           config.headers = config.headers || {};
@@ -25,7 +25,7 @@
   });
 
   angular.module('photo')
-    .factory('LoginService', function ($http, $rootScope, $state, $q, $window, $timeout, jwtHelper) {
+    .factory('LoginService', function ($http, $state, $q, $window, $timeout, jwtHelper) {
       var service = {};
       service.users = [
         {
@@ -120,7 +120,7 @@
     });
 
   angular.module('photo')
-    .directive('loginForm', function ($rootScope, LoginService, $http, $window, $state ) {
+    .directive('loginForm', function (LoginService, $http, $window, $state ) {
       return {
         restrict: 'E',
         template:
@@ -152,8 +152,7 @@
               }
             }).success(function (data, status, headers, config) {
                 $window.sessionStorage.token = data.token;
-                $rootScope.user = LoginService.getCurrentUser();
-                $state.go('photoView');
+                $state.go(data.firstPage);
               })
               .error(function (data, status, headers, config) {
                 delete $window.sessionStorage.token;
@@ -173,8 +172,8 @@
 
           '</div>' +
           '<div class="user-card" flex="30" ng-click="LoginService.logOut()">' +
-            '{{user.getFirstName()}}' +
-            '{{user.getLastName()}}' +
+            '{{loggedUser.getFirstName()}}' +
+            '{{loggedUser.getLastName()}}' +
           '</div>' +
         '</div>',
         link: function ($scope) {

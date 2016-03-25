@@ -34,7 +34,7 @@ app.get('/', function (req, res) {
   res.send('Hello! The API is at http://localhost:' + port + '/api');
 });
 
-app.get('/setup', function (req, res) {
+app.get('/setup-admin', function (req, res) {
 
   // create a sample user
   var nick = new User({
@@ -43,6 +43,26 @@ app.get('/setup', function (req, res) {
     firstname: 'Rodion',
     lastname: 'Starodubenko',
     admin: true
+  });
+
+  // save the sample user
+  nick.save(function (err) {
+    if (err) throw err;
+
+    console.log('User saved successfully');
+    res.json({success: true});
+  });
+});
+
+app.get('/setup-user', function (req, res) {
+
+  // create a sample user
+  var nick = new User({
+    name: 'John',
+    password: '1',
+    firstname: 'John',
+    lastname: 'Doe',
+    admin: false
   });
 
   // save the sample user
@@ -123,16 +143,27 @@ apiRoutes.get('/check-access', function (req, res) {
     } else {
       var id = decoded._doc._id;
       User.findById(id, function (err, user) {
-        if (user.admin && state == 'photoView') {
-          res.json({access: true});
-        } else {
-          res.json({access: false});
-        }
+        res.json({access: checkPermissions(user,state)});
       });
     }
   });
 
 });
+
+var checkPermissions = function (user, state) {
+  var result = false;
+  if (user.admin && state == 'admin') {
+    result = true
+  } else
+  if (state == 'photoView') {
+    result = true
+  }
+  return result;
+};
+
+var firstPage = function (isAdmin) {
+  return isAdmin ? 'admin' : 'photoView';
+};
 
 apiRoutes.post('/authenticate', function (req, res) {
 
@@ -161,7 +192,7 @@ apiRoutes.post('/authenticate', function (req, res) {
         // return the information including token as JSON
         res.json({
           success: true,
-          message: 'Enjoy your token!',
+          firstPage: firstPage(user.admin),
           token: token
         });
       }
