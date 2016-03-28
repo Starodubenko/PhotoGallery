@@ -24,7 +24,7 @@
       })
       .state('admin', {
         url: '/admin',
-        template: '<photo-view></photo-view>',
+        template: '<admin-view></admin-view>',
         data: {
           requireLogin: true
         }

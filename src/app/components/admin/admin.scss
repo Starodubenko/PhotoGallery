@@ -1,0 +1,65 @@
+.admin-view {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(150, 107, 92);
+}
+
+.admin-view{
+  .folder-area{
+    padding-top: 60px;
+    width: 300px;
+    background-color: #545faa;
+  }
+  .folder-area{
+    md-tabs > md-tabs-content-wrapper > md-tab-content > div > md-content{
+      height: 80vh;
+      overflow-y: hidden;
+    }
+  }
+  .work-area{
+    .folder-view{
+      padding-top: 60px;
+      background-color: #58aa4a;
+    }
+    .upload-area{
+      height: 300px;
+      background-color: #ccd546;
+    }
+  }
+}
+
+.admin-part-photo{
+  height: 200px;
+  background-color: #38aa37;
+}
+
+md-list-item.add-list-item{
+  padding: 0;
+}
+
+.custom-list{
+  overflow: hidden;
+  height: 450px;
+  transition: height 0.3s linear;
+  outline:0;
+}
+
+md-list-item.md-clickable:hover{
+  cursor: default;
+}
+
+.custom-list{
+  .md-subheader{
+    width: 100%;
+    outline: 0;
+  }
+  md-content{
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+.collapsed-item{
+  height: 0;
+}
+
