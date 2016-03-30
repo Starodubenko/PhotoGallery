@@ -4,12 +4,7 @@
             return{
                 restrict: 'E',
                 scope: {},
-                template:
-                '<form name="fileForm">' +
-                '<file-selector></file-selector>' +
-                '<file-comment></file-comment>' +
-                '<file-sumbit upload-object="uploadObject"></file-sumbit>' +
-                '</form>',
+                templateUrl: '/app/components/fileUploader/fileForm/file-form.html',
                 controller: function ($scope) {
                     $scope.uploadObject = {};
                     var vm = this;

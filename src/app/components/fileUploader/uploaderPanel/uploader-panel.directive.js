@@ -3,11 +3,7 @@
         .directive('uploaderPanel', function(){
             return{
                 restrict: 'E',
-                template:
-                '<div class="uploader-panel">' +
-                '<file-form></file-form>' +
-                '<file-list></file-list>' +
-                '</div>',
+                template: '/app/components/fileUploader/uploaderPanel/uploader-panel.html',
                 controller: function () {
                     this.horizontalScroll = function (element) {
                         var deltaY = element.deltaY;

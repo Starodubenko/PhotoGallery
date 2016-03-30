@@ -1,12 +1,15 @@
-<form action="">
-  <div layout-gt-sm="column">
-    <md-input-container class="md-block" flex-gt-sm>
-      <label>First name</label>
-      <input ng-model="user.firstName">
-    </md-input-container>
-    <md-input-container class="md-block" flex-gt-sm>
-      <label>Long Last Name That Will Be Truncated And 3 Dots (Ellipsis) Will Appear At The End</label>
-      <input ng-model="theMax">
-    </md-input-container>
-  </div>
-</form>
+<div class="login-form" layout="row" flex="auto" layout-wrap layout-align="center center">
+  <form ng-class="{'already-logged-in': LoginService.isUserLoggedIn()}">
+    <div layout-gt-sm="column">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>User name</label>
+        <input ng-model="user.userName" value="Rody">
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Password</label>
+        <input ng-model="user.password" value="1">
+      </md-input-container>
+    </div>
+    <md-button class="md-raised md-primary" ng-click="submit()">Log in</md-button>
+  </form>
+</div>

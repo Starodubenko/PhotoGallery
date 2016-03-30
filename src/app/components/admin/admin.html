@@ -1,53 +1,17 @@
 <div class="admin-view" layout="row">
-  <md-whiteframe class="md-whiteframe-24dp folder-area">
-      <md-tabs md-dynamic-height md-border-bottom>
+  <md-whiteframe class="md-whiteframe-24dp admin-area" layout="column">
+    <div style="height: 60px; "></div>
+      <md-tabs md-dynamic-height md-border-bottom flex layout="column">
         <md-tab label="Edit">
           <md-content class="md-padding">
-            <div class="admin-part-photo">
-
-            </div>
-            <md-input-container class="md-block" flex-gt-sm>
-              <label>Name</label>
-              <input ng-model="editingPhoto.name">
-            </md-input-container>
-            <md-input-container class="md-block" flex-gt-sm>
-              <label>Section</label>
-              <input ng-model="editingPhoto.section">
-            </md-input-container>
-
-            <md-button class="md-raised md-primary">Save</md-button>
+            <file-editor></file-editor>
           </md-content>
         </md-tab>
         <md-tab label="Add">
           <md-content class="md-padding">
-            <md-button class="md-raised md-primary">Select</md-button>
-
-            <md-list ng-repeat="topic in testList">
-              <md-list-item class="add-list-item custom-list" ng-class="{'collapsed-item': topic.isCollapsed}" layout="column"  layout-align="center none">
-                <md-subheader id="{{$index}}" class="md-no-sticky" ng-click="collapseContent($event)">{{topic.title}}</md-subheader>
-                <md-content flex>
-                  <div class="admin-part-photo">
-
-                  </div>
-                  <md-input-container class="md-block" flex-gt-sm>
-                    <label>Name</label>
-                    <input ng-model="editingPhoto.name">
-                  </md-input-container>
-                  <md-input-container class="md-block" flex-gt-sm>
-                    <label>Section</label>
-                    <input ng-model="editingPhoto.section">
-                  </md-input-container>
-                </md-content>
-              </md-list-item>
-            </md-list>
-
-            <md-button class="md-raised md-primary">Save</md-button>
+            <file-uploader></file-uploader>
           </md-content>
         </md-tab>
       </md-tabs>
   </md-whiteframe>
-  <div class="work-area" layout="column" flex="auto">
-    <md-whiteframe class="md-whiteframe-24dp folder-view" flex></md-whiteframe>
-    <!--<md-whiteframe class="md-whiteframe-12dp upload-area"></md-whiteframe>-->
-  </div>
 </div>

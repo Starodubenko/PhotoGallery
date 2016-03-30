@@ -123,22 +123,7 @@
     .directive('loginForm', function (LoginService, $http, $window, $state ) {
       return {
         restrict: 'E',
-        template:
-        '<div class="login-form" layout="row" flex="auto" layout-wrap layout-align="center center">' +
-          '<form ng-class="{\'already-logged-in\': LoginService.isUserLoggedIn()}">' +
-            '<div layout-gt-sm="column">' +
-              '<md-input-container class="md-block" flex-gt-sm>' +
-                '<label>User name</label>' +
-                '<input ng-model="user.userName" value="Rody">' +
-              '</md-input-container>' +
-              '<md-input-container class="md-block" flex-gt-sm>' +
-                '<label>Password</label>' +
-                '<input ng-model="user.password" value="1">' +
-              '</md-input-container>' +
-            '</div>' +
-            '<md-button class="md-raised md-primary" ng-click="submit()">Log in</md-button>' +
-          '</form>' +
-        '</div>',
+        templateUrl: '/app/components/login/login.html',
         link: function ($scope) {
           $scope.LoginService = LoginService;
 

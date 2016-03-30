@@ -1,21 +1,111 @@
-.admin-view {
-  width: 100vw;
-  height: 100vh;
-  background-color: rgb(150, 107, 92);
-}
+//.admin-view {
+//  width: 100vw;
+//  height: 100vh;
+//}
 
 .admin-view{
-  .folder-area{
-    padding-top: 60px;
+  .admin-area{
+    //padding-top: 60px;
     width: 300px;
     background-color: #545faa;
   }
-  .folder-area{
-    md-tabs > md-tabs-content-wrapper > md-tab-content > div > md-content{
-      height: 80vh;
-      overflow-y: hidden;
+
+  .admin-area{
+    //md-tabs {
+      md-tabs-content-wrapper {
+        @extend .stretch-on-whole-height;
+        md-tab-content {
+          @extend .stretch-on-whole-height;
+          div {
+            @extend .stretch-on-whole-height;
+            md-content{
+              height: 100vh;
+              file-uploader{
+                file-actions{
+                  div{
+                    flex-direction: row;
+                  }
+                }
+              }
+              @extend .stretch-on-whole-height;
+              //height: 100vh;
+              //overflow-y: hidden;
+              .admin-part-photo{
+                @extend .without-stretch;
+                height: 150px;
+                background-color: #38aa37;
+                margin-top: 10px;
+              }
+              md-input-container{
+                flex: initial;
+              }
+              md-list{
+                padding: 2px 0px 2px 0px;
+                md-list-item{
+                  @extend .without-stretch;
+                  width: 260px;
+                  .md-subheader{
+                    background-color: #cfcfcf;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    //}
+  }
+
+  .actions-block{
+    width: 260px;
+    
+    input[type="file"] {
+      display: none;
+    }
+    .SelectedfileName {
+      overflow: hidden;
+      white-space: nowrap;
+      padding-top: 10px;
+      margin-left: 10px;
+      font-size: initial;
+    }
+    .md-button {
+      margin: 0;
+      font-size: 15px;
+      text-transform: none;
+
+      span {
+        font-size: x-large;
+      }
+      .upload-icon {
+        color: #3F51B5;
+        height: 30px;
+        width: 30px;
+      }
+      .delete-icon {
+        color: #845555;
+      }
+
+      .icon-left {
+        span{
+          float: right;
+        }
+      }
     }
   }
+
+  .stretch-on-whole-height{
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .without-stretch{
+    display: block;
+    flex: initial;
+  }
+
   .work-area{
     .folder-view{
       padding-top: 60px;
@@ -27,12 +117,6 @@
     }
   }
 }
-
-.admin-part-photo{
-  height: 200px;
-  background-color: #38aa37;
-}
-
 md-list-item.add-list-item{
   padding: 0;
 }

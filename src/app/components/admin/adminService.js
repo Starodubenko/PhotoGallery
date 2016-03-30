@@ -1,37 +1,23 @@
 (function () {
-  angular.module('admin', []);
-
-  // angular.module('photo')
-  //   .factory('AdminService', function () {
-  //     var service = {};
-  //
-  //     var currentLoggedInUser;
-  //     return {
-  //
-  //     }
-  //   });
-
 
   angular.module('photo')
-    .directive('adminView', function (LoginService, $animateCss) {
+    .factory('AdminService', function () {
+      var service = {};
+
+
       return {
-        restrict: 'E',
-        templateUrl: '/app/components/admin/admin.html',
-        link: function ($scope, element) {
-
-          $scope.collapseContent = function (event) {
-            var itemId =  event.currentTarget.attributes.id.value;
-            $scope.testList[itemId].isCollapsed = !$scope.testList[itemId].isCollapsed;
-          };
-
-          $scope.testList = [
+        setFiles: function (files) {
+          service.selectedFiles = files;
+        },
+        getFiles: function () {
+          return [
             {
               title: 'item_1',
               isCollapsed: true,
               content: {
-                  imageName: 'photo_1',
-                  section: 'section_1'
-                }
+                imageName: 'photo_1',
+                section: 'section_1'
+              }
             },
             {
               title: 'item_2',
@@ -58,7 +44,11 @@
               }
             }
           ]
+        },
+        uploadAll: function () {
+
         }
       }
     });
+
 })();

@@ -298,11 +298,6 @@
           $scope.PhotoService = PhotoService;
           $scope.photos = PhotoService.getPhotos();
 
-          // $scope.$watch('PhotoService.getCurrentIndex()', function () {
-          //   var element = angular.element('photo-' + PhotoService.getCurrentIndex());
-          //   anchorSmoothScroll.scrollTo('photo-' + PhotoService.getCurrentIndex());
-          // });
-
           $document.bind('keydown keypress', function (event) {
             if (event.which === 13) {
               $scope.$apply(PhotoService.showSlider(null, true));

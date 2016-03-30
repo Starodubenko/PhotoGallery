@@ -3,13 +3,7 @@
         .directive('fileList', function($http, $log){
             return{
                 restrict: 'E',
-                template:
-                '<div class="files-list">' +
-                '<div ng-repeat="file in files">' +
-                '<uploaded-file file="file"></uploaded-file>' +
-                '<md-divider ng-if="!$last"></md-divider>' +
-                '</div>' +
-                '</div>',
+                templateUrl: '/app/components/fileUploader/fileList/file-list.html',
                 controller: function ($scope) {
                     var vm = this;
                     vm.removeFile = function (el) {
