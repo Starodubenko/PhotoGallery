@@ -7,16 +7,20 @@
         templateUrl: '/app/components/admin/fileActions/file-actions.html',
         link: function ($scope, element, attributes) {
 
-          $scope.selectFiles = function () {
-            var files = [];
-            AdminService.setFiles(files);
+          $scope.clickSelectFileButton = function (el) {
+            var sibling = el.currentTarget.nextElementSibling;
+            sibling.click();
           };
+
+          $scope.$watch('files', function () {
+            AdminService.setFiles($scope , function () {
+              $scope.$parent.$broadcast('fileAddedSuccessful')
+            });
+          });
 
           $scope.uploadAllFiles = function () {
             AdminService.uploadAll();
           };
-
-
         }
       }
     });

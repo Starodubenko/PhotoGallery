@@ -3,62 +3,71 @@
 //  height: 100vh;
 //}
 
-.admin-view{
-  .admin-area{
+.admin-view {
+  .admin-area {
     //padding-top: 60px;
     width: 300px;
     background-color: #545faa;
   }
 
-  .admin-area{
+  .admin-area {
     //md-tabs {
-      md-tabs-content-wrapper {
+    md-tabs-content-wrapper {
+      @extend .stretch-on-whole-height;
+      md-tab-content {
         @extend .stretch-on-whole-height;
-        md-tab-content {
+        div {
           @extend .stretch-on-whole-height;
-          div {
-            @extend .stretch-on-whole-height;
-            md-content{
-              height: 100vh;
-              file-uploader{
-                file-actions{
-                  div{
-                    flex-direction: row;
-                  }
+          md-content {
+            height: 100vh;
+            file-uploader {
+              file-actions {
+                div {
+                  flex-direction: row;
                 }
               }
-              @extend .stretch-on-whole-height;
-              //height: 100vh;
-              //overflow-y: hidden;
-              .admin-part-photo{
+            }
+            @extend .stretch-on-whole-height;
+            //height: 100vh;
+            //overflow-y: hidden;
+            .admin-part-photo {
+              @extend .without-stretch;
+              height: 150px;
+              background-color: #38aa37;
+              margin-top: 10px;
+            }
+            md-input-container {
+              flex: initial;
+            }
+            md-list {
+              padding: 2px 0px 2px 0px;
+              md-list-item {
                 @extend .without-stretch;
-                height: 150px;
-                background-color: #38aa37;
-                margin-top: 10px;
+                width: 260px;
+                box-shadow: rgba(0, 0, 0, 0.498039) 5px 5px 10px;
+                .md-subheader {
+                  background-color: #cfcfcf;
+                  overflow: hidden;
+                  white-space: nowrap;
+                }
+                //transition: display linear 0.5s;
               }
-              md-input-container{
-                flex: initial;
-              }
-              md-list{
-                padding: 2px 0px 2px 0px;
-                md-list-item{
-                  @extend .without-stretch;
-                  width: 260px;
-                  .md-subheader{
-                    background-color: #cfcfcf;
-                  }
+              .collapsed-item {
+                .hidden-content {
+                  display: none;
                 }
               }
             }
           }
         }
       }
+    }
     //}
   }
 
-  .actions-block{
+  .actions-block {
     width: 260px;
-    
+
     input[type="file"] {
       display: none;
     }
@@ -75,7 +84,7 @@
       text-transform: none;
 
       span {
-        font-size: x-large;
+        font-size: 18px;
       }
       .upload-icon {
         color: #3F51B5;
@@ -87,63 +96,66 @@
       }
 
       .icon-left {
-        span{
+        span {
           float: right;
         }
       }
     }
   }
 
-  .stretch-on-whole-height{
+  .stretch-on-whole-height {
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
     flex: 1;
   }
 
-  .without-stretch{
+  .without-stretch {
     display: block;
     flex: initial;
   }
 
-  .work-area{
-    .folder-view{
+  .work-area {
+    .folder-view {
       padding-top: 60px;
       background-color: #58aa4a;
     }
-    .upload-area{
+    .upload-area {
       height: 300px;
       background-color: #ccd546;
     }
   }
 }
-md-list-item.add-list-item{
+
+md-list-item.add-list-item {
   padding: 0;
+  border-left: 4px solid #3F51B5;
 }
 
-.custom-list{
+.custom-list {
   overflow: hidden;
-  height: 450px;
+  height: 380px;
   transition: height 0.3s linear;
-  outline:0;
+  outline: 0;
 }
 
-md-list-item.md-clickable:hover{
+md-list-item.md-clickable:hover {
   cursor: default;
 }
 
-.custom-list{
-  .md-subheader{
+.custom-list {
+  .md-subheader {
     width: 100%;
     outline: 0;
   }
-  md-content{
+  md-content {
     width: 100%;
     overflow: hidden;
+    padding: 3px;
   }
 }
 
-.collapsed-item{
+.collapsed-item {
   height: 0;
 }
 

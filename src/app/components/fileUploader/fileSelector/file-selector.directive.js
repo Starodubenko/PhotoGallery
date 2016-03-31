@@ -16,7 +16,7 @@
                         sibling.click();
                     };
 
-                    $scope.$watch('file', function () {
+                    $scope.$watch('files', function () {
                         FileFormController.setFile($scope.file);
                     });
 

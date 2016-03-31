@@ -1,49 +1,43 @@
 (function () {
 
   angular.module('photo')
-    .factory('AdminService', function () {
+    .factory('AdminService', function (fileReader) {
       var service = {};
-
+      service.selectedFiles = [];
+      service.currentSection = 'section_1';
 
       return {
-        setFiles: function (files) {
-          service.selectedFiles = files;
+        setFiles: function ($scope, callback) {
+          if ($scope.files) {
+            var filteredFiles = $scope.files.filter(function (item) {
+              return item.type.substring(0, item.type.indexOf('/')) == 'image';
+            });
+            filteredFiles.forEach(function (item) {
+              fileReader.readAsDataUrl(item, $scope)
+                .then(function (result) {
+                  service.selectedFiles.push({
+                    title: item.name,
+                    isCollapsed: true,
+                    file: item,
+                    imageFileSrc: result,
+                    section: service.currentSection
+                  });
+                });
+            });
+            callback();
+          }
         },
         getFiles: function () {
-          return [
-            {
-              title: 'item_1',
-              isCollapsed: true,
-              content: {
-                imageName: 'photo_1',
-                section: 'section_1'
-              }
-            },
-            {
-              title: 'item_2',
-              isCollapsed: true,
-              content: {
-                imageName: 'photo_2',
-                section: 'section_2'
-              }
-            },
-            {
-              title: 'item_3',
-              isCollapsed: true,
-              content: {
-                imageName: 'photo_3',
-                section: 'section_3'
-              }
-            },
-            {
-              title: 'item_4',
-              isCollapsed: true,
-              content: {
-                imageName: 'photo_4',
-                section: 'section_4'
-              }
-            }
-          ]
+          return service.selectedFiles;
+        },
+        colapseListElement: function (itemId, beforeOpen, beforeClose) {
+          if (service.selectedFiles[itemId].isCollapsed){
+            beforeOpen();
+          }
+          service.selectedFiles[itemId].isCollapsed = !service.selectedFiles[itemId].isCollapsed;
+          if (service.selectedFiles[itemId].isCollapsed){
+            beforeClose();
+          }
         },
         uploadAll: function () {
 

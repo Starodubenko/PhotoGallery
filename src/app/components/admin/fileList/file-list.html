@@ -1,17 +1,18 @@
-<md-list ng-repeat="topic in files">
-  <md-list-item class="add-list-item custom-list" ng-class="{'collapsed-item': topic.isCollapsed}" layout="column"  layout-align="center none">
-    <md-subheader id="{{$index}}" class="md-no-sticky" ng-click="collapseContent($event)">{{topic.title}}</md-subheader>
-    <md-content flex>
-      <div class="admin-part-photo">
-
-      </div>
+<md-list ng-repeat="item in files">
+  <md-list-item class="add-list-item custom-list" ng-class="{'collapsed-item': item.isCollapsed}" layout="column"
+                layout-align="center none">
+    <md-subheader id="{{$index}}" class="md-no-sticky" msd-wheel="horizontalScroll($event, $delta, $deltaX, $deltaY)" ng-click=" collapseContent($event)">{{item.title}}</md-subheader>
+    <md-content class="hidden-content" flex>
+      <!--<div class="admin-part-photo">-->
+      <img class="admin-part-photo" ng-src="{{item.imageFileSrc}}"/><br/>
+      <!--</div>-->
       <md-input-container class="md-block" flex-gt-sm>
         <label>Name</label>
-        <input ng-model="editingPhoto.name">
+        <input ng-model="item.title">
       </md-input-container>
       <md-input-container class="md-block" flex-gt-sm>
         <label>Section</label>
-        <input ng-model="editingPhoto.section">
+        <input ng-model="item.section">
       </md-input-container>
     </md-content>
   </md-list-item>

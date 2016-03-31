@@ -1,13 +1,11 @@
-<!--<md-button class="md-raised md-primary">Select</md-button>-->
-<!--<md-button class="md-raised md-primary">Upload</md-button>-->
 <div class="actions-block" layout="row" layout-align="center center">
   <md-button flex="50" ng-click="clickSelectFileButton($event)">
     <md-icon class="upload-icon"><i class="material-icons">note_add</i></md-icon>
     Select
   </md-button>
-  <input type="file" name="file" ng-model="file" ngf-select>
+  <input type="file" name="files" ng-model="files" ngf-select multiple>
   <md-button flex="50" ng-click="uploadFile($event)">
     <md-icon class="upload-icon"><i class="material-icons">file_upload</i></md-icon>
-    Upload
+    Upload all
   </md-button>
 </div>
