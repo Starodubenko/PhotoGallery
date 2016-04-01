@@ -1,10 +1,22 @@
 <md-list ng-repeat="item in files">
-  <md-list-item class="add-list-item custom-list" ng-class="{'collapsed-item': item.isCollapsed}" layout="column"
+  <md-list-item class="add-list-item custom-list" ng-class="{'collapsed-item': !item.isCollapsed}" layout="column"
                 layout-align="center none">
-    <md-subheader id="{{$index}}" class="md-no-sticky" msd-wheel="horizontalScroll($event, $delta, $deltaX, $deltaY)" ng-click=" collapseContent($event)">{{item.title}}</md-subheader>
+    <div class="list-item-header" layout="row">
+      <md-subheader id="{{$index}}" flex="auto" class="md-no-sticky" msd-wheel="horizontalScroll($event, $delta, $deltaX, $deltaY)" ng-click=" collapseContent($event, $index)">
+        {{item.title}}
+      </md-subheader>
+      <span class="list-item-actions">
+        <md-button>
+          <md-icon class="item-upload-icon"><i class="material-icons">file_upload</i></md-icon>
+        </md-button>
+        <md-button>
+          <md-icon class="item-remove-icon"><i class="material-icons">clear</i></md-icon>
+        </md-button>
+      </span>
+    </div>
     <md-content class="hidden-content" flex>
       <!--<div class="admin-part-photo">-->
-      <img class="admin-part-photo" ng-src="{{item.imageFileSrc}}"/><br/>
+      <img id="admin-item-{{$index}}" class="admin-part-photo" /><br/>
       <!--</div>-->
       <md-input-container class="md-block" flex-gt-sm>
         <label>Name</label>
@@ -17,3 +29,4 @@
     </md-content>
   </md-list-item>
 </md-list>
+{{progress}}

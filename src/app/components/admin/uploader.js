@@ -1,6 +1,7 @@
 (function (module) {
 
-  var fileReader = function ($q, $log) {
+  // @ngInject
+  var fileReader = function ($q, $log, $rootScope) {
 
     var onLoad = function(reader, deferred, scope) {
       return function () {
@@ -20,7 +21,8 @@
 
     var onProgress = function(reader, scope) {
       return function (event) {
-        scope.$broadcast("fileProgress",
+        console.log(event);
+        $rootScope.$emit("fileProgress",
           {
             total: event.total,
             loaded: event.loaded
@@ -50,7 +52,6 @@
     };
   };
 
-  module.factory("fileReader",
-    ["$q", "$log", fileReader]);
+  module.factory("fileReader", fileReader);
 
 }(angular.module("photo")));

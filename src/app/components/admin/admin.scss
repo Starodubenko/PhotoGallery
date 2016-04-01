@@ -44,17 +44,45 @@
               md-list-item {
                 @extend .without-stretch;
                 width: 260px;
-                box-shadow: rgba(0, 0, 0, 0.498039) 5px 5px 10px;
-                .md-subheader {
-                  background-color: #cfcfcf;
-                  overflow: hidden;
-                  white-space: nowrap;
+                box-shadow: rgba(0, 0, 0, 0.498039) 5px 1px 8px;
+
+                .list-item-header{
+                  flex-direction: row;
+                  .md-subheader {
+                    cursor: pointer;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    margin: 0px;
+                  }
+                  .list-item-actions{
+                    flex-direction: row;
+                    display: none;
+                    .md-button{
+                      min-width: 10px;
+                      min-height: 10px;
+                      height: 36px;
+                      width: 36px;
+                      margin: 6px 0;
+                      padding: 0px;
+                      .item-remove-icon{
+                        color: #845555;
+                      }
+                      .item-upload-icon{
+                        color: #3F51B5;
+                      }
+
+                    }
+                  }
                 }
-                //transition: display linear 0.5s;
+                .list-item-header:hover{
+                  .list-item-actions{
+                    display: block;
+                  }
+                }
               }
               .collapsed-item {
                 .hidden-content {
-                  display: none;
+                  //display: none;
                 }
               }
             }
@@ -135,8 +163,12 @@ md-list-item.add-list-item {
 .custom-list {
   overflow: hidden;
   height: 380px;
-  transition: height 0.3s linear;
+  //transition: height 0.3s linear;
   outline: 0;
+}
+
+.collapsed-item {
+  //height: 380px;
 }
 
 md-list-item.md-clickable:hover {
@@ -153,9 +185,5 @@ md-list-item.md-clickable:hover {
     overflow: hidden;
     padding: 3px;
   }
-}
-
-.collapsed-item {
-  height: 0;
 }
 
