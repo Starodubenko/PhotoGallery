@@ -1,6 +1,34 @@
 (function () {
+
   angular.module('photo')
-    .directive('fileListAdmin', function (AdminService, fileReader, $timeout, $rootScope) {
+    .animation('.collapsed-item', function ($animateCss, AdminService) {
+      return {
+        addClass: function (element,className, done, properties) {
+          AdminService.setCollapsed(properties.itemId, true);
+          var animator = $animateCss(element, {
+            to: {height: '380px'},
+            duration: 0.5
+          });
+          animator.start().finally(function () {
+            done();
+            AdminService.startShowingPhoto(properties.itemId);
+          });
+        },
+        removeClass: function (element, className, done, properties) {
+          var animator = $animateCss(element, {
+            to: {height: '0px'},
+            duration: 0.5
+          });
+          animator.start().finally(function () {
+            done();
+            AdminService.setCollapsed(properties.itemId, false);
+          });
+        }
+      }
+    });
+
+  angular.module('photo')
+    .directive('fileListAdmin', function (AdminService, fileReader, $timeout, $rootScope, $q, $animate) {
       return {
         restrict: 'E',
         scope: {},
@@ -17,34 +45,20 @@
             $scope.files = AdminService.getFiles();
           });
           $rootScope.$on("fileProgress", function (e, progress) {
-            $scope.progress = 1.0 * progress.loaded / progress.total;
-            console.log($scope.progress);
+            // $scope.progress = 1.0 * progress.loaded / progress.total;
+            // console.log($scope.progress);
           });
 
           $scope.collapseContent = function (event, index) {
             var itemId = event.currentTarget.attributes.id.value;
-            AdminService.colapseListElement(itemId,
-              function () {
-                var image = document.getElementById('admin-item-' + index);
+            var listItemElement = angular.element(event.currentTarget.parentElement.parentElement);
+            var content = angular.element(event.currentTarget.parentElement.nextElementSibling);
 
-                image.onload = function () {
-                  var array = new Array(1000000);
-                  for (var i = array.length - 1; i >= 0; i--) {
-                    array[i] = new Object();
-                  };
-                  console.timeEnd("imageLouded");
-                };
-                console.time("imageLouded");
-                image.src = $scope.files[index].imageFileSrc;
-
-
-                angular.element(event.currentTarget.parentElement.nextElementSibling).removeClass('hidden-content');
-              },
-              function () {
-                $timeout(function () {
-                  angular.element(event.currentTarget.parentElement.nextElementSibling).addClass('hidden-content');
-                }, 400)
-              });
+            if (!listItemElement.hasClass('collapsed-item')){
+              $animate.addClass(listItemElement, 'collapsed-item', {itemId: itemId});
+            } else {
+              $animate.removeClass(listItemElement, 'collapsed-item', {itemId: itemId});
+            }
           };
         }
       }

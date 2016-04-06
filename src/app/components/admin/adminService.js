@@ -17,9 +17,10 @@
                 .then(function (result) {
                   service.selectedFiles.push({
                     title: item.name,
-                    isCollapsed: true,
+                    haveBeenCollapsed: false,
                     file: item,
                     imageFileSrc: result,
+                    havePhotoBeenShown: false,
                     section: service.currentSection
                   });
                 });
@@ -30,13 +31,19 @@
         getFiles: function () {
           return service.selectedFiles;
         },
-        colapseListElement: function (itemId, beforeOpen, beforeClose) {
-          if (service.selectedFiles[itemId].isCollapsed){
-            beforeOpen();
-          }
-          service.selectedFiles[itemId].isCollapsed = !service.selectedFiles[itemId].isCollapsed;
-          if (service.selectedFiles[itemId].isCollapsed){
-            beforeClose();
+        setCollapsed: function (id, value) {
+          service.selectedFiles[id].haveBeenCollapsed = value;
+        },
+        startShowingPhoto: function (itemId) {
+          if (!service.selectedFiles[itemId].havePhotoBeenShown){
+            var image = document.getElementById('admin-list-item-image-' + itemId);
+            if(!image.src){
+              var file = service.selectedFiles[itemId];
+              image.src = file.imageFileSrc;
+              if (image.src){
+                service.selectedFiles[itemId].havePhotoBeenShown = true;
+              }
+            }
           }
         },
         uploadAll: function () {

@@ -1,6 +1,8 @@
-<md-list ng-repeat="item in files">
-  <md-list-item class="add-list-item custom-list" ng-class="{'collapsed-item': !item.isCollapsed}" layout="column"
+<md-list ng-repeat="item in files" >
+  <md-list-item class="add-list-item custom-list"
+                layout="column"
                 layout-align="center none">
+    <!--ng-class="{'collapsed-item': !item.isCollapsed}"-->
     <div class="list-item-header" layout="row">
       <md-subheader id="{{$index}}" flex="auto" class="md-no-sticky" msd-wheel="horizontalScroll($event, $delta, $deltaX, $deltaY)" ng-click=" collapseContent($event, $index)">
         {{item.title}}
@@ -14,9 +16,10 @@
         </md-button>
       </span>
     </div>
-    <md-content class="hidden-content" flex>
+    <md-content ng-class="{'hidden-content': !item.haveBeenCollapsed}" flex>
       <!--<div class="admin-part-photo">-->
-      <img id="admin-item-{{$index}}" class="admin-part-photo" /><br/>
+      <md-progress-circular class="md-hue-2 content-img-progress" md-diameter="70px" ng-show="!item.havePhotoBeenShown"></md-progress-circular>
+      <img id="admin-list-item-image-{{$index}}" class="admin-part-photo"/>
       <!--</div>-->
       <md-input-container class="md-block" flex-gt-sm>
         <label>Name</label>

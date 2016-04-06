@@ -6,11 +6,8 @@
   top: 0;
   background-color: rgb(62, 57, 150);
   transition: top 0.5s cubic-bezier(0.55, -0.01, 0.11, 0.95);
+  z-index: 1;
 }
-
-//.login-view.animate {
-//  transition: top 0.5s cubic-bezier(0.55, -0.01, 0.11, 0.95);
-//}
 
 .login-view.raised {
   top: -100vh;

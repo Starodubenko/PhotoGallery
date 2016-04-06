@@ -33,8 +33,14 @@
             .admin-part-photo {
               @extend .without-stretch;
               height: 150px;
-              background-color: #38aa37;
+              //background-color: #38aa37;
               margin-top: 10px;
+              z-index: 1;
+            }
+            .content-img-progress{
+              position: absolute;
+              left: 75px;
+              top: 40px;
             }
             md-input-container {
               flex: initial;
@@ -82,7 +88,7 @@
               }
               .collapsed-item {
                 .hidden-content {
-                  //display: none;
+                  display: none;
                 }
               }
             }
@@ -162,8 +168,8 @@ md-list-item.add-list-item {
 
 .custom-list {
   overflow: hidden;
-  height: 380px;
-  //transition: height 0.3s linear;
+  height: 0px;
+  transition: height 0.3s linear;
   outline: 0;
 }
 
