@@ -7,7 +7,7 @@
           AdminService.setCollapsed(properties.itemId, true);
           var animator = $animateCss(element, {
             to: {height: '380px'},
-            duration: 0.5
+            duration: 0.3
           });
           animator.start().finally(function () {
             done();
@@ -17,7 +17,7 @@
         removeClass: function (element, className, done, properties) {
           var animator = $animateCss(element, {
             to: {height: '0px'},
-            duration: 0.5
+            duration: 0.3
           });
           animator.start().finally(function () {
             done();

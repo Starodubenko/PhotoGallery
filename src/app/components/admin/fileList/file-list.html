@@ -16,7 +16,7 @@
         </md-button>
       </span>
     </div>
-    <md-content ng-class="{'hidden-content': !item.haveBeenCollapsed}" flex>
+    <md-content ng-show="item.haveBeenCollapsed" flex>
       <!--<div class="admin-part-photo">-->
       <md-progress-circular class="md-hue-2 content-img-progress" md-diameter="70px" ng-show="!item.havePhotoBeenShown"></md-progress-circular>
       <img id="admin-list-item-image-{{$index}}" class="admin-part-photo"/>
@@ -32,4 +32,3 @@
     </md-content>
   </md-list-item>
 </md-list>
-{{progress}}

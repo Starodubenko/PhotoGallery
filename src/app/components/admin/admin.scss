@@ -1,11 +1,5 @@
-//.admin-view {
-//  width: 100vw;
-//  height: 100vh;
-//}
-
 .admin-view {
   .admin-area {
-    //padding-top: 60px;
     width: 300px;
     background-color: #545faa;
   }
@@ -28,12 +22,9 @@
               }
             }
             @extend .stretch-on-whole-height;
-            //height: 100vh;
-            //overflow-y: hidden;
             .admin-part-photo {
               @extend .without-stretch;
               height: 150px;
-              //background-color: #38aa37;
               margin-top: 10px;
               z-index: 1;
             }
@@ -86,17 +77,11 @@
                   }
                 }
               }
-              .collapsed-item {
-                .hidden-content {
-                  display: none;
-                }
-              }
             }
           }
         }
       }
     }
-    //}
   }
 
   .actions-block {
@@ -174,7 +159,7 @@ md-list-item.add-list-item {
 }
 
 .collapsed-item {
-  //height: 380px;
+
 }
 
 md-list-item.md-clickable:hover {
