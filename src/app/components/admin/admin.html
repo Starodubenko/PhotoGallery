@@ -1,9 +1,10 @@
-<div class="admin-view" layout="row">
+<div class="admin-view" layout="row" ng-controller="AdminPageController as vm" ng-class="{'open':vm.isAdminOpen()}">
   <md-whiteframe class="md-whiteframe-24dp admin-area" layout="column">
-    <div style="height: 60px; "></div>
+    <div style="height: 60px;"></div>
+    <div class="admin-slide-button" layout="row" layout-align="center center" ng-click="vm.toggleAdmin()">A</div>
       <md-tabs md-dynamic-height md-border-bottom flex layout="column">
         <md-tab label="Edit">
-          <md-content class="md-padding">
+          <md-content class="md-padding edit-content">
             <file-editor></file-editor>
           </md-content>
         </md-tab>

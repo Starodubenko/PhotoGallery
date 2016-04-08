@@ -1,4 +1,16 @@
+.admin-view.open{
+  left: 0px;
+}
+
+.edit-content{
+  padding: 0 16px;
+}
+
 .admin-view {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  transition: left 1s cubic-bezier(0.26, 0.53, 0, 1.01);
   .admin-area {
     width: 300px;
     background-color: #545faa;
@@ -6,6 +18,17 @@
 
   .admin-area {
     //md-tabs {
+    .admin-slide-button{
+      position: absolute;
+      right: -50px;
+      background-color: #545FAA;
+      width: 50px;
+      height: 50px;
+      font-size: 55px;
+      color: white;
+      cursor: pointer;
+      outline: 0;
+    }
     md-tabs-content-wrapper {
       @extend .stretch-on-whole-height;
       md-tab-content {
@@ -67,7 +90,9 @@
                       .item-upload-icon{
                         color: #3F51B5;
                       }
-
+                      md-icon{
+                        outline: 0;
+                      }
                     }
                   }
                 }
@@ -75,6 +100,10 @@
                   .list-item-actions{
                     display: block;
                   }
+                }
+                md-progress-linear{
+                  position: relative;
+                  top: -5px;
                 }
               }
             }

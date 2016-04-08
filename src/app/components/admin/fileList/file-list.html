@@ -7,27 +7,28 @@
       <md-subheader id="{{$index}}" flex="auto" class="md-no-sticky" msd-wheel="horizontalScroll($event, $delta, $deltaX, $deltaY)" ng-click=" collapseContent($event, $index)">
         {{item.title}}
       </md-subheader>
-      <span class="list-item-actions">
+      <span class="list-item-actions" ng-if="!isFileBeingUploaded($index)">
         <md-button>
-          <md-icon class="item-upload-icon"><i class="material-icons">file_upload</i></md-icon>
+          <md-icon class="item-upload-icon" ng-click="uploadFile($index)"><i class="material-icons">file_upload</i></md-icon>
         </md-button>
         <md-button>
-          <md-icon class="item-remove-icon"><i class="material-icons">clear</i></md-icon>
+          <md-icon class="item-remove-icon" ng-click="removeFile($index)"><i class="material-icons">clear</i></md-icon>
         </md-button>
       </span>
     </div>
+    <md-progress-linear md-mode="determinate" value="{{item.downloadProgress}}"></md-progress-linear>
     <md-content ng-show="item.haveBeenCollapsed" flex>
       <!--<div class="admin-part-photo">-->
       <md-progress-circular class="md-hue-2 content-img-progress" md-diameter="70px" ng-show="!item.havePhotoBeenShown"></md-progress-circular>
       <img id="admin-list-item-image-{{$index}}" class="admin-part-photo"/>
       <!--</div>-->
-      <md-input-container class="md-block" flex-gt-sm>
+      <md-input-container class="md-block" flex-gt-sm >
         <label>Name</label>
-        <input ng-model="item.title">
+        <input ng-model="item.title" ng-readonly="isFileBeingUploaded($index)">
       </md-input-container>
       <md-input-container class="md-block" flex-gt-sm>
         <label>Section</label>
-        <input ng-model="item.section">
+        <input ng-model="item.section" ng-readonly="isFileBeingUploaded($index)">
       </md-input-container>
     </md-content>
   </md-list-item>

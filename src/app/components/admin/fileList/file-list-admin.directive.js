@@ -41,18 +41,23 @@
             event.preventDefault();
           };
 
-          $scope.$on('fileAddedSuccessful', function () {
-            $scope.files = AdminService.getFiles();
-          });
-          $rootScope.$on("fileProgress", function (e, progress) {
-            // $scope.progress = 1.0 * progress.loaded / progress.total;
-            // console.log($scope.progress);
-          });
+          $scope.files = AdminService.getFiles();
+
+          $scope.uploadFile = function (index) {
+            AdminService.uploadFile(index);
+          };
+
+          $scope.isFileBeingUploaded = function (index) {
+            return $scope.files[index].downloadProgress > 0;
+          };
+
+          $scope.removeFile = function (index) {
+            AdminService.removeFile(index);
+          };
 
           $scope.collapseContent = function (event, index) {
             var itemId = event.currentTarget.attributes.id.value;
             var listItemElement = angular.element(event.currentTarget.parentElement.parentElement);
-            var content = angular.element(event.currentTarget.parentElement.nextElementSibling);
 
             if (!listItemElement.hasClass('collapsed-item')){
               $animate.addClass(listItemElement, 'collapsed-item', {itemId: itemId});

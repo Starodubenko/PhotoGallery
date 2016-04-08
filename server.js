@@ -11,6 +11,8 @@ var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./src/server/config.js'); // get our config file
 var User = require('./src/server/model/user.js'); // get our mongoose model
 
+var multer  = require('multer');
+
 // =======================
 // configuration =========
 // =======================
@@ -196,10 +198,24 @@ apiRoutes.post('/authenticate', function (req, res) {
           token: token
         });
       }
-
     }
-
   });
+});
+
+var upload = multer();
+apiRoutes.post('/upload-file', upload.fields([
+    { name: 'file', maxCount: 1},
+    { name: 'section', maxCount: 1}
+]), function (req, resp) {
+  // var currentDate = new Date();
+  // var newId = Math.round(Math.random()*10000);
+  
+  
+  resp.json({currentDate:currentDate, id: newId});
+});
+
+apiRoutes.post('/delete-file', function (req, resp) {
+  resp.status(200).send("file deleted successfully");
 });
 
 // apply the routes to our application with the prefix /api

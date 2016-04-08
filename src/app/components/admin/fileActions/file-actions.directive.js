@@ -14,7 +14,7 @@
 
           $scope.$watch('files', function () {
             AdminService.setFiles($scope , function () {
-              $scope.$parent.$broadcast('fileAddedSuccessful')
+              $scope.$parent.$broadcast('fileSetHasChanged');
             });
           });
 
